@@ -1,13 +1,21 @@
 <template>
   <div class="nav">
-    <router-link to="/money">记账</router-link>|
-    <router-link to="/labels">标签</router-link>|
-    <router-link to="/statistics">明细</router-link>
+    <router-link to="/money">
+      <Icon name="money" />记账
+    </router-link>|
+    <router-link to="/labels">
+      <Icon name="lable" />标签
+    </router-link>|
+    <router-link to="/statistics">
+      <Icon name="statistics" />明细
+    </router-link>
   </div>
 </template>
 
 <script lang="ts">
-export default {};
+export default {
+  name: "Vue"
+};
 </script>
 
 <style lang='scss' scoped>
