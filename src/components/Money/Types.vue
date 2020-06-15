@@ -7,24 +7,42 @@
   </div>
 </template>
 
-<script>
-export default {
-  name: "Types",
-  data() {
-    return {
-      type: "-" //- 表示支出，+表示收入
-    };
-  },
-  methods: {
-    selectType(type) {
-      // type只能 - /+中的一个
-      if (type !== "-" && type !== "+") {
-        throw new Error("type is unknown");
-      }
-      this.type = type;
+<script lang="ts">
+import Vue from "vue";
+import { Component } from "vue-property-decorator";
+@Component({
+    props:{
+        proMessage:String
     }
+})
+export default class Types extends Vue {
+  type = "-"; //- 表示支出，+表示收入
+    helloMsg = 'Hello,'+this.propMessage;
+  selectType(type: string) {
+    // type只能 - /+中的一个
+    if (type !== "-" && type !== "+") {
+      throw new Error("type is unknown");
+    }
+    this.type = type;
   }
-};
+}
+// export default {
+//   name: "Types",
+//   data() {
+//     return {
+//       type: "-" //- 表示支出，+表示收入
+//     };
+//   },
+//   methods: {
+//     selectType(type) {
+//       // type只能 - /+中的一个
+//       if (type !== "-" && type !== "+") {
+//         throw new Error("type is unknown");
+//       }
+//       this.type = type;
+//     }
+//   }
+// };
 </script>
 
 <style lang='scss' scoped>
@@ -32,6 +50,7 @@ export default {
   background: rgb(239, 245, 192);
   display: flex;
   font-size: 24px;
+
   > li {
     width: 50%;
     height: 64px;
