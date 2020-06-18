@@ -1,36 +1,55 @@
 <template>
   <div>
     <Layout class-prefix="layout">
-      <NumberPad />
-      <Types :xxx="111"/>
-      <Notes />
-      <Tags :data-source="tags"/>
+      {{record}}
+      <NumberPad  @update:value="onUpdateAmount"/>
+      <Types :value.sync="record.type" />
+      <Notes @update:value="onUpdateNotes"/>
+      <Tags :data-source.sync="tags" :value.sync="record.tags"/>
     </Layout>
   </div>
 </template>
 
-<script>
-import NumberPad from "@/components/Money/NumberPad.vue";
-import Types from "@/components/Money/Types.vue";
-import Notes from "@/components/Money/Notes.vue";
-import Tags from "@/components/Money/Tags.vue";
-export default {
-  name: "Money",
-  components: { NumberPad, Types, Notes, Tags },
-  data(){
-    return{
-      tags:['衣','食','住','行']
-    }
+<script lang="ts">
+  import Vue from 'vue';
+  import NumberPad from '@/components/Money/NumberPad.vue';
+  import Types from '@/components/Money/Types.vue';
+  import Notes from '@/components/Money/Notes.vue';
+  import Tags from '@/components/Money/Tags.vue';
+  import {Component} from 'vue-property-decorator';
+
+  type Record = {
+    tags: string;
+    notes: string;
+    type: string;
+    amount: number;
   }
-};
+  @Component({
+    components: {NumberPad, Types, Notes, Tags}
+  })
+  export default class Money extends Vue {
+    tags = ['衣', '食', '住', '行'];
+    record: Record = {
+      tags:'衣',notes:'',type:'-',amount:0
+    }
+
+    onUpdateNotes(value: string) {
+      this.record.notes = value
+    }
+
+    onUpdateAmount(value: string) {
+      this.record.amount = parseFloat(value)
+    }
+
+  }
 </script>
 <style lang='scss'>
-.layout-content {
-  display: flex;
-  flex-direction: column-reverse;
-}
+  .layout-content {
+    display: flex;
+    flex-direction: column-reverse;
+  }
 </style>
 
 <style lang='scss' scoped>
-@import "~@/assets/style/helper.scss";
+  @import "~@/assets/style/helper.scss";
 </style>

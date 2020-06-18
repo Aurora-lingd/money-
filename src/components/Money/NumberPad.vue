@@ -65,16 +65,17 @@
     }
 
     ok() {
-      if (this.OK === '=') {
-        this.num.push(parseFloat(this.output));
-        this.output = (this.num.reduce((sum, item) => {
-          return sum + item;
-        }, 0)).toString();
-        console.log(this.num);
-        this.num.length = 0;
-        this.OK = 'OK';
-        return;
-      }
+      // if (this.OK === '=') {
+      //   this.num.push(parseFloat(this.output));
+      //   this.output = (this.num.reduce((sum, item) => {
+      //     return sum + item;
+      //   }, 0)).toString();
+      //   console.log(this.num);
+      //   this.num.length = 0;
+      //   this.OK = 'OK';
+      //   return;
+      // }
+      this.$emit('update:value',this.output)
 
     }
 
