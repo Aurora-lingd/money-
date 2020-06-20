@@ -4,7 +4,8 @@
     <label class="formItem">
       <span class="name">{{this.fieldName}}</span>
       <input type="text"
-             v-model="value"
+             :value="value"
+             @input="onValueChange($event.target.value)"
              :placeholder="this.placeholder" />
     </label>
   </div>
