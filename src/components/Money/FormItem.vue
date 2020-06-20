@@ -1,6 +1,5 @@
 <template>
   <div>
-    {{value}}
     <label class="formItem">
       <span class="name">{{this.fieldName}}</span>
       <input type="text"
