@@ -1,6 +1,5 @@
 <template>
   <div>
-    {{tags}}
     <Layout>
       <ol class="tags">
         <li v-for="tag in tags" :key="tag.id">
