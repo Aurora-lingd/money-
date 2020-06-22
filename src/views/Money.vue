@@ -6,7 +6,7 @@
       <div class="notes">
         <FormItem field-name="备注" placeholder="在这里输入备注" @update:value="onUpdateNotes"/>
       </div>
-      <Tags :data-source.sync="tags" :value.sync="record.tags"/>
+      <Tags />
     </Layout>
   </div>
 </template>
@@ -25,7 +25,6 @@
   components: {NumberPad, Types, FormItem, Tags}
  })
  export default class Money extends Vue {
-  tags = store.tagList;
   recordList = store.recordList;
   record: RecordItem = {
    tags: '衣', notes: '', type: '-', amount: 0
