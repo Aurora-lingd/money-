@@ -20,9 +20,7 @@
   @Component({
    computed:{
     tagList(){
-     //TODO
-     //return  this.$store.fetchTags()
-     return []
+     return this.$store.state.tagList
     }
    }
   })
@@ -39,17 +37,17 @@
       this.selected = tag
       this.$emit('update:value',this.selected)
     }
-    //TODO
-    // created(){
-    //   if(this.tagList){
-    //     this.selected = this.tagList[0].name
-    //   }
-    // }
+
+    created(){
+     this.$store.commit('fetchTags')
+      if(this.$store.state.tagList){
+        this.selected = this.$store.state.tagList[0].name
+      }
+    }
     create() {
       const name = window.prompt('请输入标签名');
       if (!name) {return  window.alert('标签名不能为空')}
-      // TODO
-      //store.createTag(name)
+      this.$store.commit('createTag',name)
     }
   }
 </script>
