@@ -16,11 +16,17 @@
 <script lang="ts">
   import Vue from 'vue';
   import {Component} from 'vue-property-decorator';
-  import store from '@/store/index2';
 
-  @Component
+  @Component({
+   computed:{
+    tagList(){
+     //TODO
+     //return  this.$store.fetchTags()
+     return []
+    }
+   }
+  })
   export default class Tags extends Vue {
-    tagList = store.fetchTags()
     selected  = '';
 
     toggle(tag: string) {
@@ -33,16 +39,17 @@
       this.selected = tag
       this.$emit('update:value',this.selected)
     }
-
-    created(){
-      if(this.tagList){
-        this.selected = this.tagList[0].name
-      }
-    }
+    //TODO
+    // created(){
+    //   if(this.tagList){
+    //     this.selected = this.tagList[0].name
+    //   }
+    // }
     create() {
       const name = window.prompt('请输入标签名');
       if (!name) {return  window.alert('标签名不能为空')}
-      store.createTag(name)
+      // TODO
+      //store.createTag(name)
     }
   }
 </script>
