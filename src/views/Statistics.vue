@@ -31,18 +31,20 @@
 </script>
 
 <style lang='scss' scoped>
-  ::v-deep .type-tabs-item {
-    background: white;
+  ::v-deep {
+    .type-tabs-item {
+      background: white;
 
-    &.selected {
-      background: #f8e484;
+      &.selected {
+        background: #f8e484;
 
-      &::after {
-        display: none;
+        &::after {
+          display: none;
+        }
       }
     }
-  }
-  ::v-deep .interval-tabs-item{
-    height:48px
+    .interval-tabs-item{
+      height:48px
+    }
   }
 </style>
