@@ -4,10 +4,11 @@
       <NumberPad @update:value="onUpdateAmount" @submit="saveRecord"/>
       <Tabs :data-source="recordListType" :value.sync="record.type"/>
       <div class="notes">
-        <FormItem field-name="备注" placeholder="在这里输入备注" @update:value="onUpdateNotes"/>
+        <FormItem field-name="备注" placeholder="在这里输入备注" :value.sync="record.notes"/>
       </div>
-      <Tags />
+      <Tags @update:value="record.tags = $event" />
     </Layout>
+    {{record}}
   </div>
 </template>
 
@@ -26,7 +27,7 @@
  })
  export default class Money extends Vue {
   record: RecordItem = {
-   tags: '衣', notes: '', type: '-', amount: 0
+   tags: '', notes: '', type: '-', amount: 0
   };
   get recordList(){
    return this.$store.state.recordList
@@ -43,6 +44,10 @@
   }
   saveRecord() {
    this.$store.commit('createRecord',this.record)
+   if (this.$store.state.createRecordError === null){
+    this.$router.replace('/statistics')
+    this.record.notes = ''
+   }
   }
  }
 </script>

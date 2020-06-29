@@ -40,6 +40,7 @@
      this.$store.commit('fetchTags')
       if(this.$store.state.tagList){
         this.selected = this.$store.state.tagList[0].name
+       this.$emit('update:value',this.selected)
       }
     }
 
@@ -67,7 +68,6 @@
         padding: 0 16px;
         margin-right: 12px;
         margin-top: 4px;
-
         &.selected {
           background: #f8c34b;
           color: white;
