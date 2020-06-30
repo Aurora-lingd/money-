@@ -37,14 +37,10 @@ const store = new Vuex.Store({
      {id: '4', name: '交通', iconName: '交通',},
      {id: '5', name: '社交', iconName: '娱乐',},
      {id: '6', name: '医疗', iconName: '医疗健康',},
-     {id: '7', name: '其他', iconName: '其他',}
-
-
+     {id: '7', name: '工资', iconName: '工资',},
+     {id: '8', name: '红包', iconName: '红包',},
+     {id: '9', name: '其他', iconName: '其他',}
     ]
-    // store.commit('createTag', '日常');
-    // store.commit('createTag', '餐饮');
-    // store.commit('createTag', '服饰');
-    // store.commit('createTag', '交通');
    }
   },
   createTag(state, name: string) {
