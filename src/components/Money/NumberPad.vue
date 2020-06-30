@@ -1,5 +1,6 @@
 <template>
   <div class="numberPad">
+    {{num}} {{count1}}
     <div class="output">{{output}}</div>
     <div class="buttons">
       <button @click="inputContent">1</button>
@@ -31,10 +32,45 @@
     OK = 'OK';
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
     num: Array<any> = [];
+    count1 = 0;
+    count2= 0
 
     inputContent(event: MouseEvent) {
       const button = (event.target as HTMLButtonElement);
       const input = button.textContent as string;
+     if (input === '+' || input === '-') {
+       if (this.output.indexOf('+') >= 0 || this.output.indexOf('-') >= 0) {
+        this.count1 = 0
+       }
+       if (this.num.length === 0){
+         this.num.push(this.output);
+         this.OK = '=';
+       }else {
+         this.num.push(this.output);
+       }
+      this.count1 +=1
+     } else if (this.output.indexOf('+') >= 0 || this.output.indexOf('-') >= 0) {
+       this.output = input;
+       return;
+     }
+
+     if(this.count1 >= 2){
+      let result
+      console.log('hi')
+      console.log(this.num)
+      const n = this.num.map(i=>parseFloat(i))
+      this.num.length = 0
+      if(input === '+'){
+       result = (n[0]+n[1]).toString()
+      }
+      if (input === '-'){
+       result = (n[0]-n[1]).toString()
+      }
+      console.log(n)
+      this.num.push(result)
+      this.output = this.num[0]
+      this.count1 = 1
+     }
 
       if (this.output.length === 16) {
         return;
@@ -51,9 +87,44 @@
         return;
       }
       if (this.output.indexOf('+') >= 0 && input === '+') {
-
+       this.num.pop();
         return;
       }
+     if(this.output[0] == '-'  ){
+      if(this.output.slice(1).indexOf('-') >= 0 && input === '-'){
+       this.num.pop();
+       console.log('fuck')
+       return;
+      }
+
+     }else if (this.output.indexOf('-') >= 0 && input === '-'){
+      this.num.pop();
+      console.log('fuck')
+      return;
+     }
+
+     // if(this.output.slice(1).indexOf('-')&& input === '+' ){
+     //  this.output = this.output.replace('-','+')
+     //  return;
+     // }
+
+      // if(this.output.indexOf('-')&& input === '+' ){
+      //  this.output = this.output.replace('-','+')
+      //  return;
+      // }
+
+
+     if(this.output.indexOf('+')&& input === '-' ){
+      console.log(this.output);
+      this.output = this.output.replace('+','-')
+      console.log(this.output);
+      if (this.output.indexOf('--')>=0){
+       this.output = this.output.replace('--','-')
+      }
+      this.num.length = 1
+     }
+
+
       this.output += input;
 
     }
@@ -62,23 +133,16 @@
     clear() {
       this.output = '0';
       this.num.length = 0;
+      this.count1 = 0
     }
 
     ok() {
-      // if (this.OK === '=') {
-      //   this.num.push(parseFloat(this.output));
-      //   this.output = (this.num.reduce((sum, item) => {
-      //     return sum + item;
-      //   }, 0)).toString();
-      //   console.log(this.num);
-      //   this.num.length = 0;
-      //   this.OK = 'OK';
-      //   return;
-      // }
-     const  number = parseFloat(this.output)
+     if(this.OK === 'ok'){
+      const  number = parseFloat(this.output)
       this.$emit('update:value',number)
       this.$emit('submit',number)
       this.output = '0'
+     }
     }
 
   }
