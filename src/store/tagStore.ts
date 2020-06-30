@@ -18,7 +18,7 @@ const tagStore = {
    return 'duplicated';
   }
   const id = createId().toString();
-  this.tagList.push({id, name: name});
+  this.tagList.push({id, name: name,iconName:'自定义'});
   this.saveTags();
   window.alert('添加成功');
   return 'success';

@@ -5,9 +5,12 @@
     </div>
     <ul class="current">
       <li v-for="tag in tagList" :key="tag.id"
-          :class="{selected:selected === tag.name}"
           @click="toggle(tag.name)"
-      >{{tag.name}}
+      >
+        <div class="iconTag" :class="{selected:selected === tag.name}">
+          <Icon :name="tag.iconName"></Icon>
+        </div>
+        <span>{{tag.name}}</span>
       </li>
     </ul>
   </div>
@@ -61,16 +64,24 @@
       flex-wrap: wrap;
 
       > li {
-        background: #f6e0ae;
-        height: 24px;
-        line-height: 24px;
-        border-radius: 12px;
-        padding: 0 16px;
-        margin-right: 12px;
-        margin-top: 4px;
-        &.selected {
-          background: #f8c34b;
-          color: white;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        flex-direction: column;
+        width: 20%;
+        margin-bottom: 10px;
+        >.iconTag{
+          width:40px ;
+          height: 40px;
+          border-radius: 50%;
+          line-height: 40px;
+          text-align: center;
+          font-size: 24px;
+          &.selected {
+            background: #f8c34b;
+            color: white;
+
+          }
         }
       }
 

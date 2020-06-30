@@ -1,6 +1,5 @@
 <template>
   <div class="numberPad">
-    {{num}} {{count1}}
     <div class="output">{{output}}</div>
     <div class="buttons">
       <button @click="inputContent">1</button>
@@ -23,129 +22,149 @@
 </template>
 
 <script lang="ts">
-  import Vue from 'vue';
-  import {Component} from 'vue-property-decorator';
+ import Vue from 'vue';
+ import {Component} from 'vue-property-decorator';
 
-  @Component
-  export default class NumberPad extends Vue {
-    output = '0';
-    OK = 'OK';
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    num: Array<any> = [];
-    count1 = 0;
-    count2= 0
+ @Component
+ export default class NumberPad extends Vue {
+  type = '';
+  output = '0';
+  OK = 'OK';
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  num: Array<any> = [];
+  count1 = 0;
+  count2 = 0;
 
-    inputContent(event: MouseEvent) {
-      const button = (event.target as HTMLButtonElement);
-      const input = button.textContent as string;
-     if (input === '+' || input === '-') {
-       if (this.output.indexOf('+') >= 0 || this.output.indexOf('-') >= 0) {
-        this.count1 = 0
-       }
-       if (this.num.length === 0){
-         this.num.push(this.output);
-         this.OK = '=';
-       }else {
-         this.num.push(this.output);
-       }
-      this.count1 +=1
-     } else if (this.output.indexOf('+') >= 0 || this.output.indexOf('-') >= 0) {
-       this.output = input;
-       return;
-     }
-
-     if(this.count1 >= 2){
-      let result
-      console.log('hi')
-      console.log(this.num)
-      const n = this.num.map(i=>parseFloat(i))
-      this.num.length = 0
-      if(input === '+'){
-       result = (n[0]+n[1]).toString()
-      }
-      if (input === '-'){
-       result = (n[0]-n[1]).toString()
-      }
-      console.log(n)
-      this.num.push(result)
-      this.output = this.num[0]
-      this.count1 = 1
-     }
-
-      if (this.output.length === 16) {
-        return;
-      }
-      if (this.output === '0') {
-        if ('0123456789'.indexOf(input) >= 0) {
-          this.output = input;
-        } else {
-          this.output += input;
-        }
-        return;
-      }
-      if (this.output.indexOf('.') >= 0 && input === '.') {
-        return;
-      }
-      if (this.output.indexOf('+') >= 0 && input === '+') {
-       this.num.pop();
-        return;
-      }
-     if(this.output[0] == '-'  ){
-      if(this.output.slice(1).indexOf('-') >= 0 && input === '-'){
-       this.num.pop();
-       console.log('fuck')
-       return;
-      }
-
-     }else if (this.output.indexOf('-') >= 0 && input === '-'){
-      this.num.pop();
-      console.log('fuck')
-      return;
-     }
-
-     // if(this.output.slice(1).indexOf('-')&& input === '+' ){
-     //  this.output = this.output.replace('-','+')
-     //  return;
-     // }
-
-      // if(this.output.indexOf('-')&& input === '+' ){
-      //  this.output = this.output.replace('-','+')
-      //  return;
-      // }
-
-
-     if(this.output.indexOf('+')&& input === '-' ){
-      console.log(this.output);
-      this.output = this.output.replace('+','-')
-      console.log(this.output);
-      if (this.output.indexOf('--')>=0){
-       this.output = this.output.replace('--','-')
-      }
-      this.num.length = 1
-     }
-
-
-      this.output += input;
-
+  inputContent(event: MouseEvent) {
+   const button = (event.target as HTMLButtonElement);
+   const input = button.textContent as string;
+   if (input === '+' || input === '-') {
+    // if (this.output.indexOf('+') >= 0) {
+    //  this.count1 = 0;
+    // }
+    // if (this.output.indexOf('-') >= 0) {
+    //  this.count1 = 0;
+    // }
+    if (this.num.length === 0) {
+     this.num.push(this.output);
+    } else {
+     this.num.push(this.output);
     }
+   } else if (this.output.indexOf('+') >= 0 || this.output.indexOf('-') >= 0) {
+    this.output = input;
+    return;
+   }
 
-
-    clear() {
-      this.output = '0';
-      this.num.length = 0;
-      this.count1 = 0
+   if (this.output.indexOf('+') === -1 && input === '+') {
+    if (this.count1 <= 1){
+     this.num.push('+')
     }
-
-    ok() {
-     if(this.OK === 'ok'){
-      const  number = parseFloat(this.output)
-      this.$emit('update:value',number)
-      this.$emit('submit',number)
-      this.output = '0'
-     }
+    this.count1 += 1
+   }
+   if (this.output.slice(1).indexOf('-') === -1 && input === '-') {
+    if (this.count1 <= 1){
+     this.num.push('-')
     }
+    this.count1 += 1
+   }
+   console.log(this.count1)
+
+
+   if (this.num.indexOf('+') && input === '-' ){
+    this.num[1] = '-'
+    //this.num = this.num.slice(0,2)
+    console.log(this.num)
+    this.count1 = 1
+   }
+   if (this.count1 >= 2) {
+    let result;
+    let n
+    if (this.num.slice(0,3).indexOf('+') >= 0) {
+     n = this.num.slice(0,3).join('').split('+').map(i => parseFloat(i))
+     this.num = this.num.slice(3)
+     result = (n[0] + n[1]).toString();
+    }
+    if (this.num.slice(1,3).indexOf('-') >= 0) {
+     n = this.num.slice(0,3).join('').split('-').map(i => parseFloat(i))
+     this.num = this.num.slice(3)
+     result = (n[0] - n[1]).toString();
+    }
+    this.num.unshift(result);
+    this.output = this.num[0];
+    this.count1 = 1;
+   }
+
+   if (this.output.length === 16) {
+    return;
+   }
+   if (this.output === '0') {
+    if ('0123456789'.indexOf(input) >= 0) {
+     this.output = input;
+    } else {
+     this.output += input;
+    }
+    return;
+   }
+   if (this.output.indexOf('.') >= 0 && input === '.') {
+    return;
+   }
+   if (this.output.indexOf('+') >= 0 && input === '+') {
+    this.num.pop();
+    return;
+   }
+   if (this.output[0] == '-') {
+    if (this.output.slice(1).indexOf('-') >= 0 && input === '-') {
+     this.num.pop();
+     return;
+    }
+   } else if (this.output.indexOf('-') >= 0 && input === '-') {
+    this.num.pop();
+    return;
+   }
+
+   // if (this.num.indexOf('+') >= 0) {
+   //  if (input === '-') {
+   //   console.log('fuck-----------------');
+   //   this.output = this.output.replace('+', '');
+   //   this.num.pop();
+   //
+   //  }
+   // }
+   if (this.output[0] !== '-' && this.output.indexOf('-') >= 0) {
+    if (input === '+') {
+     this.output = this.output.replace('-', '');
+     this.num.pop();
+    }
+   }
+   if (this.output[0] == '-' && this.output.indexOf('-') >= 0) {
+    if (input === '+') {
+     this.output = '-' + this.output.slice(1).replace('-', '');
+     this.num.pop();
+    }
+   }
+   console.log(this.num);
+
+
+   this.output += input;
 
   }
+
+  clear() {
+   this.output = '0';
+   this.num.length = 0;
+   this.count1 = 0;
+  }
+
+  ok() {
+   if (this.OK === 'OK') {
+    const number = parseFloat(this.output);
+    this.$emit('update:value', number);
+    this.$emit('submit', number);
+    this.output = '0';
+   }
+  }
+
+ }
 </script>
 
 <style lang='scss' scoped>
