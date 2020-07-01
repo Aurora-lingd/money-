@@ -122,7 +122,7 @@
    console.log(this.num.length);
    console.log(this.num);
 
-   if (this.output.indexOf('+') >=0 || this.output.slice(1).indexOf('-') >= 0){
+   if (this.output.indexOf('+') >=0 || this.output.slice(1).indexOf('-') >= 0 || this.count === 0){
     const number = parseFloat(this.output);
     this.$emit('update:value', number);
     this.$emit('submit', number);
